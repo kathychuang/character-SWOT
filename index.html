@@ -3,213 +3,546 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔮 靈魂戰略 SWOT 分析報告</title>
+    <title>✨ QUANTUM BAZI | 量子八字解碼系統</title>
+    <script src="https://cdn.jsdelivr.net/npm/lunar-javascript/lunar.js"></script>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --text-main: #e0e0e0;
-            --text-muted: #a0a0a0;
-            --s-color: #00e676; /* Strengths - Green */
-            --w-color: #ff3d00; /* Weaknesses - Red */
-            --o-color: #2979ff; /* Opportunities - Blue */
-            --t-color: #ffea00; /* Threats - Yellow */
+            --bg: #050505;
+            --card-bg: #141414;
+            --accent: #00f2ff; /* Cyber Cyan */
+            --accent-glow: rgba(0, 242, 255, 0.3);
+            --secondary: #7000ff; /* Mystic Purple */
+            --text: #e0e0e0;
+            --text-muted: #888;
+            --s-color: #00e676;
+            --w-color: #ff3d00;
+            --o-color: #2979ff;
+            --t-color: #ffea00;
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
             margin: 0;
-            padding: 20px;
-            line-height: 1.6;
+            padding: 0;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(112, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.1) 0%, transparent 40%);
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 50px;
-            padding: 40px 20px;
-            background: linear-gradient(180deg, rgba(41,121,255,0.1) 0%, rgba(18,18,18,0) 100%);
+        /* SECTION 1: INPUT FORM */
+        #inputSection {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #333;
             border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 0 30px var(--accent-glow);
+            animation: slideUp 0.8s ease-out;
         }
 
         h1 {
-            font-size: 2.5em;
-            margin: 0;
-            background: linear-gradient(45deg, #ffffff, #a0a0a0);
+            text-align: center;
+            font-weight: 200;
+            letter-spacing: 4px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            font-size: 2.5rem;
         }
 
         .subtitle {
+            text-align: center;
             color: var(--text-muted);
-            font-size: 1.1em;
-            margin-top: 10px;
-            letter-spacing: 1px;
+            margin-bottom: 40px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* SWOT Grid Layout */
-        .swot-grid {
+        .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
         }
 
-        .swot-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 4px solid transparent;
-        }
-
-        .swot-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            font-size: 1.5em;
+        .form-group { margin-bottom: 20px; }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent);
+            font-size: 0.8rem;
             font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        .icon { margin-right: 10px; font-size: 1.2em; }
-
-        /* Specific Card Styles */
-        .strength { border-color: var(--s-color); }
-        .strength .card-header { color: var(--s-color); }
-
-        .weakness { border-color: var(--w-color); }
-        .weakness .card-header { color: var(--w-color); }
-
-        .opportunity { border-color: var(--o-color); }
-        .opportunity .card-header { color: var(--o-color); }
-
-        .threat { border-color: var(--t-color); }
-        .threat .card-header { color: var(--t-color); }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        input, select {
+            width: 100%;
+            background: #000;
+            border: 1px solid #333;
+            padding: 15px;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+            transition: 0.3s;
         }
 
-        li {
-            margin-bottom: 15px;
-            padding-left: 20px;
-            position: relative;
+        input:focus, select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
-        li::before {
-            content: "▹";
-            position: absolute;
-            left: 0;
-            color: var(--text-muted);
+        .btn-main {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: transform 0.2s;
         }
 
-        .highlight {
-            color: #fff;
-            font-weight: 600;
-            background: rgba(255,255,255,0.1);
-            padding: 0 5px;
-            border-radius: 3px;
+        .btn-main:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(112, 0, 255, 0.5); }
+
+        /* SECTION 2: LOADING */
+        #loadingSection {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s ease-in-out infinite;
+            margin: 0 auto 20px;
         }
 
-        /* Year Analysis Section */
-        .timeline-section {
-            margin-top: 50px;
+        /* SECTION 3: REPORT */
+        #reportSection {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        .header-card {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 30px;
+        }
+
+        .bazi-display {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .pillar-box {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        .pillar-box.day { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        .p-char { font-size: 1.8rem; font-weight: bold; margin: 5px 0; }
+        .p-label { font-size: 0.7rem; color: var(--text-muted); }
+
+        /* SWOT Grid */
+        .swot-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .swot-box {
             background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            position: relative;
+            border-top: 3px solid transparent;
+        }
+
+        .swot-box h3 { margin-top: 0; display: flex; align-items: center; font-size: 1.2rem; }
+        .swot-box ul { padding-left: 20px; margin: 0; }
+        .swot-box li { margin-bottom: 10px; line-height: 1.6; font-size: 0.95rem; }
+
+        .s-box { border-color: var(--s-color); } .s-box h3 { color: var(--s-color); }
+        .w-box { border-color: var(--w-color); } .w-box h3 { color: var(--w-color); }
+        .o-box { border-color: var(--o-color); } .o-box h3 { color: var(--o-color); }
+        .t-box { border-color: var(--t-color); } .t-box h3 { color: var(--t-color); }
+
+        /* Timeline */
+        .timeline-box {
+            background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
             padding: 30px;
             border-radius: 15px;
+            border: 1px solid #333;
         }
-
-        .timeline-title {
-            font-size: 1.8em;
+        .year-item {
+            display: flex;
             margin-bottom: 20px;
-            text-align: center;
-            color: var(--o-color);
+            padding-bottom: 20px;
+            border-bottom: 1px solid #222;
         }
+        .year-item:last-child { border: none; margin: 0; padding: 0; }
+        .year-label {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            width: 80px;
+            flex-shrink: 0;
+        }
+        .year-text { font-size: 0.95rem; color: #ccc; }
+
+        .btn-reset {
+            display: block;
+            margin: 40px auto;
+            background: transparent;
+            border: 1px solid #444;
+            color: #888;
+            padding: 10px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .btn-reset:hover { border-color: var(--accent); color: var(--accent); }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         @media (max-width: 768px) {
-            .swot-grid { grid-template-columns: 1fr; }
-            h1 { font-size: 1.8em; }
+            .form-grid, .swot-container { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <header>
-            <h1>🧬 靈魂戰略 SWOT 分析</h1>
-            <div class="subtitle">命盤頻率解碼 // 高維視角 // 落地執行</div>
-        </header>
-
-        <div class="swot-grid">
+        
+        <div id="inputSection">
+            <h1>QUANTUM BAZI</h1>
+            <div class="subtitle">輸入出廠設定 // 下載靈魂藍圖</div>
             
-            <div class="swot-card strength">
-                <div class="card-header">
-                    <span class="icon">⚡</span> Strengths (天賦原力)
+            <form id="baziForm">
+                <div class="form-group">
+                    <label>USER ID (姓名)</label>
+                    <input type="text" id="name" placeholder="例如：Neo" required>
                 </div>
-                <ul>
-                    <li><strong>高維下載能力：</strong> 你的命盤中「偏印」能量顯著，這代表你擁有天然的<span class="highlight">直覺天線</span>，能輕易接收宇宙訊息，適合從事策略、身心靈或創意工作。</li>
-                    <li><strong>顯化加速器：</strong> 你的日主能量強旺，如同高容量電池。一旦你設定意圖（Intention），你的<span class="highlight">顯化速度</span>比一般人快3倍。</li>
-                    <li><strong>破局者思維：</strong> 「七殺」透出，賦予你改革的魄力。你不是來守成的，你是來<span class="highlight">重寫規則</span>的。</li>
-                </ul>
-            </div>
 
-            <div class="swot-card weakness">
-                <div class="card-header">
-                    <span class="icon">📉</span> Weaknesses (系統 Bug)
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>出生日期</label>
+                        <input type="date" id="birthDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>出生時間</label>
+                        <input type="time" id="birthTime" required>
+                    </div>
                 </div>
-                <ul>
-                    <li><strong>接地感不足 (Ungrounded)：</strong> 五行缺土，導致你的想法雖然高頻，但容易<span class="highlight">飄在空中</span>，執行力時常斷鏈。你需要物理世界的錨點。</li>
-                    <li><strong>能量過載 (Burnout)：</strong> 因為輸出功率過大，若沒有適當的「水」元素來調節，你的神經系統容易過熱，導致<span class="highlight">情緒急躁</span>或失眠。</li>
-                    <li><strong>孤芳自賞：</strong> 過於獨特的頻率有時會讓你與集體潛意識格格不入，產生<span class="highlight">孤獨感</span>。</li>
-                </ul>
-            </div>
 
-            <div class="swot-card opportunity">
-                <div class="card-header">
-                    <span class="icon">🚀</span> Opportunities (時空傳送門)
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>性別</label>
+                        <select id="gender">
+                            <option value="1">男 (Male)</option>
+                            <option value="0">女 (Female)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>解讀模式</label>
+                        <select id="mode">
+                            <option value="standard">標準戰略版 (SWOT)</option>
+                        </select>
+                    </div>
                 </div>
-                <ul>
-                    <li><strong>2025 (乙巳年) 流量紅利：</strong> 木火通明的流年，是將你的個人品牌推向<span class="highlight">公眾視野</span>的最佳時機。宇宙演算法正在推播你的頻率。</li>
-                    <li><strong>跨界整合：</strong> 你的命盤顯示現在是「合相」的高峰期，適合尋找互補的合作夥伴（特別是土、金能量強的人），進行<span class="highlight">資源重組</span>。</li>
-                    <li><strong>知識變現：</strong> 目前的時空能量有利於將你的「直覺」轉化為「系統化課程」或「產品」。</li>
-                </ul>
-            </div>
 
-            <div class="swot-card threat">
-                <div class="card-header">
-                    <span class="icon">⚠️</span> Threats (頻率干擾)
-                </div>
-                <ul>
-                    <li><strong>小人與能量吸血鬼：</strong> 由於你的光芒耀眼，容易吸引羨慕或低頻能量的<span class="highlight">投射</span>。需學會設立能量結界。</li>
-                    <li><strong>合約與文書陷阱：</strong> 在追求快速擴張時，流年顯示容易忽略細節。在簽署任何物理契約前，請務必<span class="highlight">三思後行</span>或諮詢專業。</li>
-                    <li><strong>財務波動：</strong> 「劫財」能量隱現，提醒你不要進行賭博性的投資，資金宜守不宜攻。</li>
-                </ul>
-            </div>
-
+                <button type="submit" class="btn-main">⚡ 初始化連結 (INITIATE)</button>
+            </form>
         </div>
 
-        <div class="timeline-section">
-            <div class="timeline-title">📅 未來三年導航簡報</div>
-            <p style="text-align: center;">
-                <strong>2024：</strong>深耕期，修復系統 Bug，累積勢能。<br>
-                <strong>2025：</strong>爆發期，利用 S (優勢) 抓住 O (機會)，大膽展現。<br>
-                <strong>2026：</strong>轉型期，注意 T (威脅)，進行資產配置與能量回收。
-            </p>
+        <div id="loadingSection">
+            <div class="loader"></div>
+            <p style="color: var(--accent); letter-spacing: 2px;">連接阿卡西紀錄...</p>
+            <p id="loadingText" style="font-size: 0.8rem; color: #666;">正在校準真太陽時...</p>
         </div>
+
+        <div id="reportSection">
+            <div class="header-card">
+                <div style="font-size: 0.9rem; color: var(--secondary); margin-bottom: 10px;">REPORT FOR: <span id="r-name" style="color:white; font-weight:bold;"></span></div>
+                <h2 id="r-title" style="margin: 0 0 10px 0;">核心頻率解析</h2>
+                <p id="r-desc" style="color: #aaa; font-size: 0.9rem; max-width: 600px; margin: 0 auto;">
+                    你的靈魂代碼已解開。以下是你目前版本的人生戰略分析。
+                </p>
+
+                <div class="bazi-display">
+                    <div class="pillar-box">
+                        <div class="p-label">年 (Karma)</div>
+                        <div class="p-char" id="p-year">--</div>
+                    </div>
+                    <div class="pillar-box">
+                        <div class="p-label">月 (Career)</div>
+                        <div class="p-char" id="p-month">--</div>
+                    </div>
+                    <div class="pillar-box day">
+                        <div class="p-label">日 (Self)</div>
+                        <div class="p-char" id="p-day">--</div>
+                    </div>
+                    <div class="pillar-box">
+                        <div class="p-label">時 (Vision)</div>
+                        <div class="p-char" id="p-time">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swot-container">
+                <div class="swot-box s-box">
+                    <h3>⚡ Strengths (天賦原力)</h3>
+                    <ul id="swot-s"></ul>
+                </div>
+                <div class="swot-box w-box">
+                    <h3>📉 Weaknesses (系統 Bug)</h3>
+                    <ul id="swot-w"></ul>
+                </div>
+                <div class="swot-box o-box">
+                    <h3>🚀 Opportunities (傳送門)</h3>
+                    <ul id="swot-o"></ul>
+                </div>
+                <div class="swot-box t-box">
+                    <h3>⚠️ Threats (防火牆警報)</h3>
+                    <ul id="swot-t"></ul>
+                </div>
+            </div>
+
+            <div class="timeline-box">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--text);">📅 能量流年導航 (Timeline)</h3>
+                <div class="year-item">
+                    <div class="year-label">2025</div>
+                    <div class="year-text" id="year-2025">--</div>
+                </div>
+                <div class="year-item">
+                    <div class="year-label">2026</div>
+                    <div class="year-text" id="year-2026">--</div>
+                </div>
+                <div class="year-item">
+                    <div class="year-label">2027</div>
+                    <div class="year-text" id="year-2027">--</div>
+                </div>
+            </div>
+
+            <button class="btn-reset" onclick="location.reload()">查詢下一位靈魂</button>
+        </div>
+
     </div>
 
+    <script>
+        // 🌌 HIGH FREQUENCY DATABASE (資料庫)
+        // 這裡定義了10個天干的專屬高頻解讀
+        const SOUL_DB = {
+            '甲': {
+                type: '陽木 (The Visionary Tree)',
+                desc: '你是正直、向上、不屈的參天大樹。你來這個世界是為了成為支柱與遮蔭。你的頻率帶有強烈的「啟動」特質。',
+                s: ['<li><strong>領袖魅力：</strong>天生具有垂直向上的生長動能，容易成為團隊的精神指標。</li><li><strong>仁慈本質：</strong>你的核心代碼寫入了「仁」，這讓你具有極強的保護欲與同理心。</li>'],
+                w: ['<li><strong>不知變通：</strong>太過筆直容易折斷，面對強風（挫折）時需學會彎腰。</li><li><strong>過度承擔：</strong>習慣成為所有人的支柱，容易導致根部營養耗盡（過勞）。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>劫財助燃，適合尋找合作夥伴（藤蔓）來擴大影響力，是「品牌擴張」年。</li>'],
+                t: ['<li><strong>金屬性切割：</strong>若遇到過強的批評（金能量），容易感到受傷，需建立心理防護罩。</li>']
+            },
+            '乙': {
+                type: '陰木 (The Networker)',
+                desc: '你是靈活、適應性強的花草藤蔓。你不需要成為大樹，因為你擅長借力使力，攀登高峰。',
+                s: ['<li><strong>高維連結：</strong>身段柔軟，能適應任何環境，是天生的社交高手與資源整合者。</li><li><strong>韌性極強：</strong>野火燒不盡，春風吹又生。你的恢復力（Resilience）是十天干之首。</li>'],
+                w: ['<li><strong>缺乏主見：</strong>容易隨風擺動，過度依賴環境或他人的能量場。</li><li><strong>佔有欲：</strong>藤蔓生長具有纏繞性，在關係中需注意給予對方空間。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>你的本命年能量場，食傷生財，是展現才華並將其變現的最佳時機。</li>'],
+                t: ['<li><strong>邊界模糊：</strong>容易介入他人的因果課題，需學會課題分離。</li>']
+            },
+            '丙': {
+                type: '陽火 (The Sun)',
+                desc: '你是熱情、無私照耀的太陽。你不需要去尋找光，因為你就是光本身。你的存在就是為了驅散陰霾。',
+                s: ['<li><strong>極致顯化：</strong>你的意念如同陽光般具有穿透力，顯化速度極快。</li><li><strong>慷慨無私：</strong>不求回報的付出讓你積累了大量的宇宙福報點數。</li>'],
+                w: ['<li><strong>喜怒無常：</strong>情緒來得快去得也快，容易不小心灼傷身邊親近的人。</li><li><strong>害怕孤獨：</strong>太陽需要觀眾，若無人欣賞，容易陷入自我懷疑的黑洞。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>印星生身，你會獲得強大的貴人支持或知識下載，適合進修與靈性提升。</li>'],
+                t: ['<li><strong>能量耗竭：</strong>持續發光而不充電，容易導致心血管或眼睛系統的能量低落。</li>']
+            },
+            '丁': {
+                type: '陰火 (The Mystic Flame)',
+                desc: '你是神秘、溫暖的燭火或星光。你擁有直達靈魂深處的洞察力，是黑夜中的引路人。',
+                s: ['<li><strong>高度敏感：</strong>你的直覺雷達極其精準，能輕易讀取他人的潛意識訊息。</li><li><strong>專注力：</strong>燭火雖小，但能聚焦一點燃燒，具有強大的鑽研與突破能力。</li>'],
+                w: ['<li><strong>內在焦慮：</strong>火苗隨風搖曳，你的內心常有無名的不安全感，需要持續的燃料（肯定）。</li><li><strong>記仇：</strong>陰火具有悶燒特質，不滿情緒容易累積成內傷。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>劫財幫身，你的社交圈將會擴大，適合舉辦社群活動或建立粉絲團。</li>'],
+                t: ['<li><strong>情緒淹沒：</strong>在水旺的流年或月份，需注意情緒的洪流將你的火苗澆熄。</li>']
+            },
+            '戊': {
+                type: '陽土 (The Mountain)',
+                desc: '你是穩重、厚實的高山。你給人強大的安全感，是承載萬物與秘密的容器。',
+                s: ['<li><strong>信用資產：</strong>誠信是你最大的貨幣，人們天生願意信任並依賴你。</li><li><strong>包容力：</strong>能夠接納各種不同頻率的人事物，具有極強的轉化與整合能力。</li>'],
+                w: ['<li><strong>固執己見：</strong>山是不會移動的，要改變你的想法比移山還難，容易錯失轉型良機。</li><li><strong>反應遲緩：</strong>對新資訊的處理速度較慢，給人遲鈍的錯覺。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>火土相生，能量獲得補給，是建立個人權威與專業形象的「造山運動」期。</li>'],
+                t: ['<li><strong>囤積症：</strong>容易囤積舊物或舊情緒，需定期進行物理與心靈的斷捨離。</li>']
+            },
+            '己': {
+                type: '陰土 (The Garden)',
+                desc: '你是細膩、滋養的田園之土。你擁有孕育生命的能力，擅長策劃、培育與教學。',
+                s: ['<li><strong>多才多藝：</strong>田園能種植各式作物，你具有多樣化的技能與變現管道。</li><li><strong>細節控：</strong>對於細微的變化非常敏感，適合處理複雜的人際或數據工作。</li>'],
+                w: ['<li><strong>優柔寡斷：</strong>泥土是粘滯的，你容易在做決定時陷入泥沼，想太多而行動太少。</li><li><strong>缺乏自信：</strong>容易低估自己的價值，習慣躲在幕後默默付出。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>正印流年，有利於考取證照、置產或獲得長輩/上司的提拔。</li>'],
+                t: ['<li><strong>界線問題：</strong>容易被他人的情緒垃圾傾倒，需學會定期淨化能量場。</li>']
+            },
+            '庚': {
+                type: '陽金 (The Warrior)',
+                desc: '你是剛毅、革新的斧鉞之金。你是天生的改革者，帶著打破舊體制的使命而來。',
+                s: ['<li><strong>執行力：</strong>你是十天干中行動力最強的，說做就做，絕不拖泥帶水。</li><li><strong>義氣：</strong>為朋友兩肋插刀，具有強烈的正義感與俠客精神。</li>'],
+                w: ['<li><strong>過於銳利：</strong>說話直指核心，容易在不經意間刺傷他人的自尊。</li><li><strong>破壞性：</strong>若無引導，容易成為為了反對而反對的破壞者。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>官殺混雜但有制，這是「壓力測試」年，通過考驗將獲得巨大的權力躍升。</li>'],
+                t: ['<li><strong>硬碰硬：</strong>遇到衝突習慣正面剛，容易導致兩敗俱傷，需學會以柔克剛。</li>']
+            },
+            '辛': {
+                type: '陰金 (The Jewel)',
+                desc: '你是精緻、閃耀的珠寶首飾。你追求完美，重視質感與面子，來到世上是為了展現優雅。',
+                s: ['<li><strong>美學天賦：</strong>對美感有極高的敏銳度，適合從事設計、時尚或藝術相關工作。</li><li><strong>邏輯清晰：</strong>雖然外表柔美，內在邏輯卻如手術刀般精準犀利。</li>'],
+                w: ['<li><strong>虛榮心：</strong>過度在意他人的評價與外在排場，容易迷失真實自我。</li><li><strong>玻璃心：</strong>珠寶是脆弱的，受不了一點瑕疵或批評，容易碎裂。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>正官合身，你的魅力與名聲將會提升，單身者有極佳的桃花運（或合作運）。</li>'],
+                t: ['<li><strong>被埋沒：</strong>若無光（舞台/火）照耀，珠寶將黯淡無光，需主動爭取曝光機會。</li>']
+            },
+            '壬': {
+                type: '陽水 (The Ocean)',
+                desc: '你是奔放、智慧的江河大海。你擁有宏觀的視野與無法被遏制的流動性。',
+                s: ['<li><strong>大智慧：</strong>水主智，你擁有極強的學習力與策略思維，善於應變。</li><li><strong>人脈廣闊：</strong>海納百川，你能與三教九流的人打交道，資源連結力強。</li>'],
+                w: ['<li><strong>缺乏定性：</strong>像水一樣流動，容易虎頭蛇尾，缺乏長期堅持的定力。</li><li><strong>氾濫成災：</strong>情緒一旦爆發如同海嘯，毀滅性極強，需學會情緒疏導。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>財星高照，水火既濟。這是你「變現」的關鍵年，流動的資源將轉化為固體財富。</li>'],
+                t: ['<li><strong>隨波逐流：</strong>容易受到大環境影響而失去方向，需設定清晰的導航目標。</li>']
+            },
+            '癸': {
+                type: '陰水 (The Mist)',
+                desc: '你是溫柔、滲透的雨露雲霧。你擁有最強的滲透力，能無聲無息地影響他人。',
+                s: ['<li><strong>靈性天賦：</strong>你是最接近靈性源頭的天干，第六感極強，適合身心靈工作。</li><li><strong>以柔克剛：</strong>你不正面衝突，但能透過持續的滲透（滴水穿石）達到目的。</li>'],
+                w: ['<li><strong>悲觀主義：</strong>容易陷入情緒的陰雨天，過度思考負面可能性。</li><li><strong>優柔寡斷：</strong>雲霧捉摸不定，容易讓人覺得你心思深沉或立場不堅定。</li>'],
+                o: ['<li><strong>2025 乙巳年：</strong>貴人運旺，且有利於「隱形佈局」。適合在幕後策劃大項目，等待時機爆發。</li>'],
+                t: ['<li><strong>自我邊界：</strong>容易像霧一樣與環境融合，導致失去自我，需練習建立心理圍牆。</li>']
+            }
+        };
+
+        // 📅 簡易流年資料庫 (The Timeline Logic)
+        // 這裡簡單處理，針對 2025, 2026, 2027 給出通用的大環境+針對日主的小建議
+        const YEAR_DB = {
+            '2025': '<strong>乙巳年 (木火) - 顯化之年：</strong> 宇宙頻率進入「視覺化」階段。這是一個看重「外表、品牌、表達」的年份。對於你而言，',
+            '2026': '<strong>丙午年 (純火) - 裂變之年：</strong> 能量達到頂峰，是巨大的轉折點。舊有的結構會被燃燒，新的秩序將建立。建議你',
+            '2027': '<strong>丁未年 (火土) - 沉澱之年：</strong> 經歷了兩年的高頻燃燒，這一年進入餘溫與轉化。適合鞏固資產與修復身心。你的課題是'
+        };
+
+        document.getElementById('baziForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const date = document.getElementById('birthDate').value;
+            const time = document.getElementById('birthTime').value;
+
+            if (!name || !date || !time) return;
+
+            // 1. UI TRANSITION: Hide Form -> Show Loader
+            document.getElementById('inputSection').style.display = 'none';
+            document.getElementById('loadingSection').style.display = 'block';
+
+            // 模擬運算延遲，增加儀式感
+            const loadingTexts = ["解析星體軌道...", "下載阿卡西紀錄...", "計算五行強弱...", "生成能量矩陣..."];
+            let step = 0;
+            const interval = setInterval(() => {
+                if(step < loadingTexts.length) {
+                    document.getElementById('loadingText').innerText = loadingTexts[step];
+                    step++;
+                }
+            }, 500);
+
+            setTimeout(() => {
+                clearInterval(interval);
+                generateReport(name, date, time);
+            }, 2500);
+        });
+
+        function generateReport(name, dateStr, timeStr) {
+            // 1. CALCULATE BAZI
+            const [year, month, day] = dateStr.split('-').map(Number);
+            const [hour, minute] = timeStr.split(':').map(Number);
+            
+            const solar = Solar.fromYmdHms(year, month, day, hour, minute, 0);
+            const lunar = solar.getLunar();
+            const bazi = lunar.getEightChar();
+
+            // 2. EXTRACT DATA
+            const yP = bazi.getYear();
+            const mP = bazi.getMonth();
+            const dP = bazi.getDay();
+            const tP = bazi.getTime();
+            
+            // 日主 (Day Master)
+            const dm = dP.charAt(0); // "甲", "乙"...
+            const soulData = SOUL_DB[dm] || SOUL_DB['甲']; // Fallback
+
+            // 3. RENDER HEADER
+            document.getElementById('r-name').innerText = name;
+            document.getElementById('r-title').innerText = `靈魂原型：${soulData.type}`;
+            document.getElementById('r-desc').innerHTML = soulData.desc;
+
+            document.getElementById('p-year').innerText = yP;
+            document.getElementById('p-month').innerText = mP;
+            document.getElementById('p-day').innerText = dP;
+            document.getElementById('p-time').innerText = tP;
+
+            // 4. RENDER SWOT
+            document.getElementById('swot-s').innerHTML = soulData.s.join('');
+            document.getElementById('swot-w').innerHTML = soulData.w.join('');
+            document.getElementById('swot-o').innerHTML = soulData.o.join('');
+            document.getElementById('swot-t').innerHTML = soulData.t.join('');
+
+            // 5. RENDER TIMELINE (Simple logic addition)
+            // 根據日主給出簡單建議
+            let advice25 = "順應火的能量，大膽展現。";
+            let advice26 = "保持冷靜，避免過熱。";
+            let advice27 = "回歸土地，務實累積。";
+
+            if("壬癸".includes(dm)) { 
+                advice25 = "水火既濟，這是你財運爆發的一年。"; 
+                advice26 = "注意財務大進大出。";
+            } else if ("丙丁".includes(dm)) {
+                advice25 = "比劫過旺，注意競爭與合作。";
+                advice26 = "極致燃燒，注意心血管與情緒。";
+            }
+
+            document.getElementById('year-2025').innerHTML = YEAR_DB['2025'] + advice25;
+            document.getElementById('year-2026').innerHTML = YEAR_DB['2026'] + advice26;
+            document.getElementById('year-2027').innerHTML = YEAR_DB['2027'] + advice27;
+
+            // 6. UI TRANSITION: Hide Loader -> Show Report
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('reportSection').style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+    </script>
 </body>
 </html>
