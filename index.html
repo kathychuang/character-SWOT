@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 靈魂戰略 SWOT 分析報告</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --s-color: #00e676; /* Strengths - Green */
+            --w-color: #ff3d00; /* Weaknesses - Red */
+            --o-color: #2979ff; /* Opportunities - Blue */
+            --t-color: #ffea00; /* Threats - Yellow */
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 20px;
+            background: linear-gradient(180deg, rgba(41,121,255,0.1) 0%, rgba(18,18,18,0) 100%);
+            border-radius: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            background: linear-gradient(45deg, #ffffff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1em;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+
+        /* SWOT Grid Layout */
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .swot-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid transparent;
+        }
+
+        .swot-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .icon { margin-right: 10px; font-size: 1.2em; }
+
+        /* Specific Card Styles */
+        .strength { border-color: var(--s-color); }
+        .strength .card-header { color: var(--s-color); }
+
+        .weakness { border-color: var(--w-color); }
+        .weakness .card-header { color: var(--w-color); }
+
+        .opportunity { border-color: var(--o-color); }
+        .opportunity .card-header { color: var(--o-color); }
+
+        .threat { border-color: var(--t-color); }
+        .threat .card-header { color: var(--t-color); }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--text-muted);
+        }
+
+        .highlight {
+            color: #fff;
+            font-weight: 600;
+            background: rgba(255,255,255,0.1);
+            padding: 0 5px;
+            border-radius: 3px;
+        }
+
+        /* Year Analysis Section */
+        .timeline-section {
+            margin-top: 50px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .timeline-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--o-color);
+        }
+
+        @media (max-width: 768px) {
+            .swot-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.8em; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🧬 靈魂戰略 SWOT 分析</h1>
+            <div class="subtitle">命盤頻率解碼 // 高維視角 // 落地執行</div>
+        </header>
+
+        <div class="swot-grid">
+            
+            <div class="swot-card strength">
+                <div class="card-header">
+                    <span class="icon">⚡</span> Strengths (天賦原力)
+                </div>
+                <ul>
+                    <li><strong>高維下載能力：</strong> 你的命盤中「偏印」能量顯著，這代表你擁有天然的<span class="highlight">直覺天線</span>，能輕易接收宇宙訊息，適合從事策略、身心靈或創意工作。</li>
+                    <li><strong>顯化加速器：</strong> 你的日主能量強旺，如同高容量電池。一旦你設定意圖（Intention），你的<span class="highlight">顯化速度</span>比一般人快3倍。</li>
+                    <li><strong>破局者思維：</strong> 「七殺」透出，賦予你改革的魄力。你不是來守成的，你是來<span class="highlight">重寫規則</span>的。</li>
+                </ul>
+            </div>
+
+            <div class="swot-card weakness">
+                <div class="card-header">
+                    <span class="icon">📉</span> Weaknesses (系統 Bug)
+                </div>
+                <ul>
+                    <li><strong>接地感不足 (Ungrounded)：</strong> 五行缺土，導致你的想法雖然高頻，但容易<span class="highlight">飄在空中</span>，執行力時常斷鏈。你需要物理世界的錨點。</li>
+                    <li><strong>能量過載 (Burnout)：</strong> 因為輸出功率過大，若沒有適當的「水」元素來調節，你的神經系統容易過熱，導致<span class="highlight">情緒急躁</span>或失眠。</li>
+                    <li><strong>孤芳自賞：</strong> 過於獨特的頻率有時會讓你與集體潛意識格格不入，產生<span class="highlight">孤獨感</span>。</li>
+                </ul>
+            </div>
+
+            <div class="swot-card opportunity">
+                <div class="card-header">
+                    <span class="icon">🚀</span> Opportunities (時空傳送門)
+                </div>
+                <ul>
+                    <li><strong>2025 (乙巳年) 流量紅利：</strong> 木火通明的流年，是將你的個人品牌推向<span class="highlight">公眾視野</span>的最佳時機。宇宙演算法正在推播你的頻率。</li>
+                    <li><strong>跨界整合：</strong> 你的命盤顯示現在是「合相」的高峰期，適合尋找互補的合作夥伴（特別是土、金能量強的人），進行<span class="highlight">資源重組</span>。</li>
+                    <li><strong>知識變現：</strong> 目前的時空能量有利於將你的「直覺」轉化為「系統化課程」或「產品」。</li>
+                </ul>
+            </div>
+
+            <div class="swot-card threat">
+                <div class="card-header">
+                    <span class="icon">⚠️</span> Threats (頻率干擾)
+                </div>
+                <ul>
+                    <li><strong>小人與能量吸血鬼：</strong> 由於你的光芒耀眼，容易吸引羨慕或低頻能量的<span class="highlight">投射</span>。需學會設立能量結界。</li>
+                    <li><strong>合約與文書陷阱：</strong> 在追求快速擴張時，流年顯示容易忽略細節。在簽署任何物理契約前，請務必<span class="highlight">三思後行</span>或諮詢專業。</li>
+                    <li><strong>財務波動：</strong> 「劫財」能量隱現，提醒你不要進行賭博性的投資，資金宜守不宜攻。</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="timeline-section">
+            <div class="timeline-title">📅 未來三年導航簡報</div>
+            <p style="text-align: center;">
+                <strong>2024：</strong>深耕期，修復系統 Bug，累積勢能。<br>
+                <strong>2025：</strong>爆發期，利用 S (優勢) 抓住 O (機會)，大膽展現。<br>
+                <strong>2026：</strong>轉型期，注意 T (威脅)，進行資產配置與能量回收。
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>
